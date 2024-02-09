@@ -10,6 +10,14 @@
 #include "beatsaber-hook/shared/utils/il2cpp-functions.hpp"
 #include "beatsaber-hook/shared/utils/hooking.hpp"
 
+#include "UnityEngine/Texture2D.hpp"
+#include "UnityEngine/GameObject.hpp"
+
 // Define these functions here so that we can easily read configuration and log information from other files
 Configuration& getConfig();
 Logger& getLogger();
+
+extern UnityEngine::Texture2D* backgroundTexture;
+extern UnityEngine::GameObject* backgroundObject;
+extern std::string bgDirectoryPath;
+extern void LoadBackground(std::string filename);
