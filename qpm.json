@@ -1,33 +1,63 @@
 {
+  "version": "0.2.0",
   "sharedDir": "shared",
   "dependenciesDir": "extern",
   "info": {
-    "name": "CustomBackgrounds",
-    "id": "CustomBackgrounds",
-    "version": "1.0.0",
+    "name": "Custom Backgrounds",
+    "id": "custombackgrounds",
+    "version": "0.1.0",
     "url": null,
-    "additionalData": {}
+    "additionalData": {
+      "overrideSoName": "libcustombackgrounds.so",
+      "cmake": true
+    }
+  },
+  "workspace": {
+    "scripts": {
+      "build": [
+        "pwsh ./scripts/build.ps1"
+      ],
+      "copy": [
+        "pwsh ./scripts/copy.ps1"
+      ],
+      "logcat": [
+        "pwsh ./scripts/start-logging.ps1"
+      ],
+      "qmod": [
+        "pwsh ./scripts/build.ps1",
+        "pwsh ./scripts/createqmod.ps1"
+      ],
+      "restart": [
+        "pwsh ./scripts/restart-game.ps1"
+      ],
+      "stack": [
+        "pwsh ./scripts/ndk-stack.ps1"
+      ],
+      "tomb": [
+        "pwsh ./scripts/pull-tombstone.ps1"
+      ]
+    }
   },
   "dependencies": [
     {
       "id": "modloader",
-      "versionRange": "*",
+      "versionRange": "=1.2.3",
       "additionalData": {}
     },
     {
       "id": "beatsaber-hook",
-      "versionRange": "^2.0.0",
-      "additionalData": {
-        "extraFiles": [
-          "src/inline-hook"
-        ]
-      }
+      "versionRange": "^3.14.0",
+      "additionalData": {}
+    },
+    {
+      "id": "codegen",
+      "versionRange": "^0.33.0",
+      "additionalData": {}
     },
     {
       "id": "questui",
-      "versionRange": "^0.11.1",
+      "versionRange": "^0.17.12",
       "additionalData": {}
     }
-  ],
-  "additionalData": {}
+  ]
 }

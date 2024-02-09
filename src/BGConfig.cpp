@@ -11,7 +11,7 @@ struct Config_t
     int rotationOffset = 0;
     std::string selectedFile = "SteamVR.png";
 }
-Settings;
+        Settings;
 
 void SetupConfig()
 {
