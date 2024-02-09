@@ -23,17 +23,21 @@
 
 using namespace UnityEngine;
 
+// Declare extern variable
+extern UnityEngine::GameObject* backgroundObject;
+
 bool getBGActive()
 {
+    // Check if backgroundObject is valid before accessing its properties
     return (backgroundObject && backgroundObject->get_activeSelf());
 }
 
 UnityEngine::GameObject* FindMultiplayerPlatform()
 {
     ArrayW<GlobalNamespace::MultiplayerLobbyAvatarPlace*> platforms = Resources::FindObjectsOfTypeAll<GlobalNamespace::MultiplayerLobbyAvatarPlace*>();
-    for (size_t i = 0; i < platforms->Length(); i++)
+    for (size_t i = 0; i < platforms.size(); i++)
     {
-        UnityEngine::Transform* plat = platforms->values[i]->get_transform();
+        UnityEngine::Transform* plat = platforms[i]->get_transform();
         if (plat->get_parent() != nullptr) {
             return plat->get_parent()->get_gameObject();
         }
@@ -46,9 +50,9 @@ void HideChildRenderers(GameObject* obj, bool onlymeshes, bool unhide = false, b
     if (obj == nullptr) return;
     bool enabled = !getBGActive() || unhide;
     ArrayW<Renderer*> rendarray = onlymeshes ? (Array<MeshRenderer*>*)obj->GetComponentsInChildren<MeshRenderer*>() : obj->GetComponentsInChildren<Renderer*>();
-    for (size_t i = 0; i < rendarray->Length(); i++)
+    for (size_t i = 0; i < rendarray.size(); i++)
     {
-        Renderer* renderer = (Renderer*)rendarray->values[i];
+        Renderer* renderer = (Renderer*)rendarray[i];
         if (!ignorelayer && renderer->get_gameObject()->get_layer() == 13) continue;
         if (!renderer || !renderer->m_CachedPtr) continue;
         renderer->set_enabled(enabled);
@@ -60,9 +64,9 @@ custom_types::Helpers::Coroutine HideChildLights(GameObject* obj, bool unhide = 
     if (obj == nullptr) co_return;
     co_yield reinterpret_cast<System::Collections::IEnumerator*>(CRASH_UNLESS(UnityEngine::WaitForSeconds::New_ctor(0.5f)));
     ArrayW<Renderer*> rendarray = obj->GetComponentsInChildren<Renderer*>();
-    for (size_t i = 0; i < rendarray->Length(); i++)
+    for (size_t i = 0; i < rendarray.size(); i++)
     {
-        Renderer* renderer = (Renderer*)rendarray->values[i];
+        Renderer* renderer = (Renderer*)rendarray[i];
         if (!renderer || !renderer->m_CachedPtr || renderer->GetComponent<GlobalNamespace::LightManager*>()) continue;
         if (!std::regex_search(to_utf8(csstrtostr(renderer->get_name())), std::regex("bloom|light", std::regex::icase)) && renderer->get_gameObject()->get_layer() != 13) continue;
         renderer->set_enabled(unhide);
